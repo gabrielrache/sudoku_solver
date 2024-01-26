@@ -1,4 +1,5 @@
 import numpy as np
+import constants
 
 # https://www.sudokuwiki.org/Getting_Started
 
@@ -56,7 +57,7 @@ def M_Last_Remaining_Cell_Row (jogo, l, c):
         naoPossibilidade.append(jogo[x,c])
 
     #DEBUG
-    #print (naoPossibilidade)
+    if constants.fl_debug: print (naoPossibilidade)
         
     return naoPossibilidade
 
