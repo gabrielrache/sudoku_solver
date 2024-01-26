@@ -1,13 +1,7 @@
 import numpy as np
 
+# https://www.sudokuwiki.org/Getting_Started
 
-
-
-
-# Dada matriz m, número n, linha l e coluna c
-# Identifica o quadro e sua respectiva matriz 3x3 
-# E testa se é possível inserir n na posição.
-# Retorna True/False
 def TestaPossibilidade (jogo, l, c, caixa):
 
     possibilidade  = np.array([1,2,3,4,5,6,7,8,9]) 
@@ -16,50 +10,28 @@ def TestaPossibilidade (jogo, l, c, caixa):
 
     quadro = RetornaQuadro(jogo,caixa)
     
+    # Method: Last Remaining Cell in a Row (or Column)
     for x in range (0,9):
         naoPossibilidade.append(jogo[l,x])
         naoPossibilidade.append(jogo[x,c])
 
+    # Method: Last Remaining Cell in a Box
     for y in range (0,3):
         naoPossibilidade.append(quadro[l%3,y])
         naoPossibilidade.append(quadro[y,c%3])
 
-    #DEBUG
-    print(f"Lista de possibilidade: {set(possibilidade).difference(naoPossibilidade)}")
+    return (list(set(possibilidade).difference(naoPossibilidade)))
 
-    return (set(possibilidade).difference(naoPossibilidade))
+def RetornaQuadro (jogo, caixa):
+    dict = {
+        '00' : jogo[:3 , :3],
+        '01' : jogo[:3 ,3:6],
+        '02' : jogo[:3 , 6:],
+        '10' : jogo[3:6, :3],
+        '11' : jogo[3:6,3:6],
+        '12' : jogo[3:6, 6:],
+        '20' : jogo[6: , :3],
+        '21' : jogo[6: ,3:6], 
+        '22' : jogo[6: , 6:]}
 
-
-    # linha = jogo[l]
-    # coluna = jogo.transpose()[c]
-    # quadro = RetornaMatriz(jogo,q)
-
-
-   
-    
-    
-# Dada matriz m e quadro i,
-# Retorna a matriz quadro respectiva
-def RetornaQuadro (m, i):
-    if i == '00':
-        return m[:3,:3]
-    elif i == '01':
-        return m[:3,3:6]
-    elif i == '02':
-        return m[:3,6:]
-
-    elif i == '10':
-        return m[3:6,:3]
-    elif i == '11':
-        return m[3:6,3:6]
-    elif i == '12':
-        return m[3:6,6:]
-    
-    elif i == '20':
-        return m[6:,:3]
-    elif i == '21':
-        return m[6:,3:6]
-    elif i == '22':
-        return m[6:,6:]
-    # else:
-        # return m
+    return dict.get(caixa)

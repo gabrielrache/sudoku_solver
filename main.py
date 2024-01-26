@@ -14,7 +14,6 @@ modeloSestiSudoku = np.array ([['A1','A2','A3','A4','A5','A6','A7','A8','A9'],
                                ['H1','H2','H3','H4','H5','H6','H7','H8','H9'],
                                ['I1','I2','I3','I4','I5','I6','I7','I8','I9']])
 
-
 modeloSestiCaixas = np.array ([['1','1','1','2','2','2','3','3','3'],
                                ['1','1','1','2','2','2','3','3','3'],
                                ['1','1','1','2','2','2','3','3','3'],
@@ -25,9 +24,7 @@ modeloSestiCaixas = np.array ([['1','1','1','2','2','2','3','3','3'],
                                ['7','7','7','8','8','8','9','9','9'],
                                ['7','7','7','8','8','8','9','9','9']])
 
-
-
-# Nomenclatura Menardo
+# Nomenclatura Menardo open source
 
 modeloMenardoSudoku = np.array ([['00','01','02','03','04','05','06','07','08'],
                                  ['10','11','12','13','14','15','16','17','18'],
@@ -39,7 +36,6 @@ modeloMenardoSudoku = np.array ([['00','01','02','03','04','05','06','07','08'],
                                  ['70','71','72','73','74','75','76','77','78'],
                                  ['80','81','82','83','84','85','86','87','88']])
 
-
 modeloMenardoCaixas = np.array ([['00','00','00','01','01','01','02','02','02'],
                                  ['00','00','00','01','01','01','02','02','02'],
                                  ['00','00','00','01','01','01','02','02','02'],
@@ -49,8 +45,6 @@ modeloMenardoCaixas = np.array ([['00','00','00','01','01','01','02','02','02'],
                                  ['20','20','20','21','21','21','22','22','22'],
                                  ['20','20','20','21','21','21','22','22','22'],
                                  ['20','20','20','21','21','21','22','22','22']])
-
-
 
 #exemplo - Sudoku completo
 
@@ -65,7 +59,6 @@ sudoku_base = np.array( [[1,2,3, 4,5,6, 7,8,9],
                          [3,4,5, 6,7,8, 9,1,2],
                          [6,7,8, 9,1,2, 3,4,5],
                          [9,1,2, 3,4,5, 6,7,8]])
-
 
 
 #Matriz - jogo
@@ -83,59 +76,97 @@ jogo = np.array([[0,0,0, 0,0,0, 0,0,0],
                  [9,1,2, 3,4,5, 6,7,8]])
 
 
-resolvidoParcial = np.copy(jogo)
+# jogo = np.array([[0,0,0, 0,0,0, 0,0,0],
+#                  [0,0,0, 0,0,0, 0,0,0],
+#                  [0,0,0, 0,0,0, 0,0,0],
+#                  [0,0,0, 0,0,0, 0,0,0],
+#                  [0,0,0, 0,0,0, 0,0,0],
+#                  [0,0,0, 0,0,0, 0,0,0],
+#                  [0,0,0, 0,0,0, 0,0,0],
+#                  [0,0,0, 0,0,0, 0,0,0],
+#                  [0,0,0, 0,0,0, 0,0,0]])
 
-
+# jogo = np.array([[0,5,0, 1,0,0, 3,0,9],
+#                  [0,9,0, 0,2,0, 0,0,5],
+#                  [8,0,4, 0,0,3, 0,0,2],
+#                  [7,0,2, 0,0,8, 0,6,0],
+#                  [9,3,0, 0,7,0, 8,0,0],
+#                  [0,0,0, 0,9,4, 5,0,0],
+#                  [0,6,0, 0,0,0, 7,0,1],
+#                  [5,0,0, 0,7,0, 0,3,0],
+#                  [0,0,1, 8,3,5, 0,0,0]])
 
 fl_continuar = True
+fl_debug = False
+fl_verbose = True
+
+qtTurnos = 1
+faltantesAnt = 0 
+
+resolvidoParcial = np.copy(jogo)
+
 
 ##########################
 #### the game - perdi ####
 ##########################
 
-
-##escolhe posição
-
 while fl_continuar:
+
+    if fl_verbose: print (f"\nTurno {qtTurnos}")
+
+    # Reseta matriz de sugestões
     matrizSugestao = np.zeros((9,9,9), dtype=bool)
-    fl_continuar = False
 
+    # Teste por linha e coluna
     for l in range (9):
-        for c in range (9):
+        for c in range (9):        
 
-           
+            # Se encontrou um quadrado vazio
             if resolvidoParcial[l,c] == 0:
-
-                print(f"Iteracao {l}{c}")
-
-                fl_continuar = True
                 
-                sugestao = list(sudoku.TestaPossibilidade (resolvidoParcial,l,c,modeloMenardoCaixas[l,c]))  
+                if fl_verbose: print(f"\nIteracao {modeloSestiSudoku[l,c]}:")
+                
+                # Retorna uma lista de sugestões baseado nas linhas, colunas e quadro
+                sugestao = sudoku.TestaPossibilidade (resolvidoParcial,l,c,modeloMenardoCaixas[l,c])  
 
-                print (f"Lista sugestão: {sugestao}")
+                if fl_verbose: print (f"Lista sugestão: {sugestao}")
       
                 ##DEBUG
-                # print(f"matrizSugestao = {matrizSugestao}")
+                if fl_debug: print(f"matrizSugestao = {matrizSugestao}")
 
+                # Lógica passa para o jogo se for única sugestão disponível
                 if len(sugestao) == 1: 
-                    resolvidoParcial[l,c] = (sugestao[0])       
+                    resolvidoParcial[l,c] = (sugestao[0])   
+                    if fl_verbose: print (f"A posição {modeloSestiSudoku[l,c]} recebeu {sugestao[0]} agora!")    
                 else:
                     for x in sugestao:
                         matrizSugestao[l,c,x-1] = True
 
-                        ##DEBUG
-                        print(f"A posição {l}, {c}, {x} recebeu True")
+                        if fl_verbose: print(f"A posição {modeloSestiSudoku[l,c]} pode ser {x}")
 
-                # np.nonzero matrizSugestao
-
-                print(matrizSugestao[0,:,:])
-
-
-
-
+                if fl_debug: print(matrizSugestao[0,:,:])
 
     resolvidoFinal = np.copy(resolvidoParcial)
 
+    faltantes = (len(np.transpose(np.nonzero( np.select ( [resolvidoFinal==0], [resolvidoFinal+1],  0)))))
 
-print(resolvidoFinal)
+    # Se jogo estar completo, parar o loop
+    if  faltantes == 0:
+        print(f"Não falta nenhum número! :D")
+        break
+
+    # Se o jogo estiver travado, parar o loop
+    if faltantesAnt >= faltantes:   
+        print(f"\nAinda faltam {faltantes} números para serem encontrados, mas não foi possível avançar\n")
+        break
+
+    if (fl_verbose and faltantes == 1): print(f"\nAinda falta 1 número para encontrar\n")
+    elif fl_verbose: print(f"\nAinda faltam {faltantes} números para serem encontrados!\n")
+
+    if fl_verbose: print(f"Progresso atual do Quebra-cabeça:\n\n{resolvidoFinal}")
+
+    qtTurnos += 1
+    faltantesAnt = faltantes
+    
+print(f"Progresso final do Quebra-cabeça:\n\n{resolvidoFinal}")
 
