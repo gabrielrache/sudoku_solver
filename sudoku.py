@@ -6,9 +6,6 @@ import numpy as np
 ### To Do List: 
 
 ## Basic Strategies
-# Pinned!
-# Naked Single
-# Naked Pairs
 # Naked Triples
 # Naked Quads
 # Hidden Candidates
@@ -24,19 +21,22 @@ import numpy as np
 # Avoidable Rectangles
 
 
-# Done!
+### Doing
+
+# Naked Pairs
+
+
+### Done!
 
 # Last Remaining Cell in a Box
 # Last Remaining Cell in a Row (or Column)
 
 
-def TestaPossibilidade (jogo, l, c, caixaMenardo):
+def TestaPossibilidades (jogo, l, c, caixaMenardo):
 
     possibilidade  = np.array([1,2,3,4,5,6,7,8,9]) 
-
     naoPossibilidade = [] 
-
-    caixa = RetornaQuadro(jogo,caixaMenardo)
+    caixa = RetornaCaixa(jogo,caixaMenardo)
     
     # Method: Last Remaining Cell in a Row (or Column)
     naoPossibilidade = M_Last_Remaining_Cell_Row (jogo, l, c)
@@ -46,14 +46,18 @@ def TestaPossibilidade (jogo, l, c, caixaMenardo):
     naoPossibilidade = M_Last_Remaining_Cell_Box (caixa)
     possibilidade = (list(set(possibilidade).difference(naoPossibilidade)))
 
-    return (list(set(possibilidade).difference(naoPossibilidade)))
+    return possibilidade
 
 
 def M_Last_Remaining_Cell_Row (jogo, l, c):
     naoPossibilidade = []
-    for x in range (0,9):
+    for x in range (9):
         naoPossibilidade.append(jogo[l,x])
         naoPossibilidade.append(jogo[x,c])
+
+    #DEBUG
+    #print (naoPossibilidade)
+        
     return naoPossibilidade
 
 def M_Last_Remaining_Cell_Box (caixa):
@@ -61,11 +65,47 @@ def M_Last_Remaining_Cell_Box (caixa):
     for l in range (3):
         for c in range (3):
             naoPossibilidade.append(caixa[l,c])
-    print (naoPossibilidade)
+    
+    #DEBUG
+    #print (naoPossibilidade)
+            
     return naoPossibilidade
 
+def M_Naked_Candidates (matrizSugestao):
 
-def RetornaQuadro (jogo, caixa):
+# 1 - busca celulas com pares iguais
+# 2a - isola pares iguais na linha
+# 2b - limpa sugestões do par na linha
+# 3a - isola pares iguais na coluna
+# 3b - limpa sugestões do par na coluna
+# 4a - isola pares iguais na caixa
+# 4b - limpa sugestões do par na caixa
+
+    for a in range (9):
+        for b in range (9):
+            if a>=b: pass
+            else:
+
+                mxA = matrizSugestao[:,:,a]
+                mxB = matrizSugestao[:,:,b] 
+
+                # DEBUG
+                print (f"Naked Pair: ({a},{b})\n")
+                
+                print (f"Matriz Sugestão: \n mxA\n({mxA}\nmxB\n{mxB})\n")
+
+                for l in range (9):
+                    for c in range (9):
+
+                        if (mxA[l,c] == True and mxB[l,c] == True):
+                            print (f"Par {a}, {b} detectado no [{l}, {c}]")
+
+
+
+        return matrizSugestao
+
+
+def RetornaCaixa (jogo, caixaMenardo):
     dict = {
         '00' : jogo[:3 , :3],
         '01' : jogo[:3 ,3:6],
@@ -77,4 +117,4 @@ def RetornaQuadro (jogo, caixa):
         '21' : jogo[6: ,3:6], 
         '22' : jogo[6: , 6:]}
 
-    return dict.get(caixa)
+    return dict.get(caixaMenardo)

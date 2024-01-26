@@ -95,9 +95,13 @@ jogo = np.array([[0,5,0, 1,0,0, 3,0,9],
                  [5,0,0, 0,7,0, 0,3,0],
                  [0,0,1, 8,3,5, 0,0,0]])
 
-fl_continuar = True
+global fl_debug
+global fl_verbose
+
 fl_debug = False
 fl_verbose = True
+fl_continuar = True
+
 
 qtTurnos = 1
 faltantesAnt = 0 
@@ -127,7 +131,7 @@ while fl_continuar:
                 if fl_verbose: print(f"\nIteracao {modeloSestiSudoku[l,c]}:")
                 
                 # Retorna uma lista de sugestões baseado nas linhas, colunas e quadro
-                sugestao = sudoku.TestaPossibilidade (resolvidoParcial,l,c,modeloMenardoCaixas[l,c])  
+                sugestao = sudoku.TestaPossibilidades (resolvidoParcial,l,c,modeloMenardoCaixas[l,c])  
 
                 if fl_verbose: print (f"Lista sugestão: {sugestao}")
       
@@ -145,6 +149,10 @@ while fl_continuar:
                         if fl_verbose: print(f"A posição {modeloSestiSudoku[l,c]} pode ser {x}")
 
                 if fl_debug: print(matrizSugestao[0,:,:])
+
+
+    matrizSugestao = sudoku.M_Naked_Candidates(matrizSugestao)
+
 
     resolvidoFinal = np.copy(resolvidoParcial)
 
@@ -169,4 +177,6 @@ while fl_continuar:
     faltantesAnt = faltantes
     
 print(f"Progresso final do Quebra-cabeça:\n\n{resolvidoFinal}")
+
+
 
