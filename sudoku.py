@@ -1,5 +1,6 @@
 import numpy as np
 import constants
+import settings
 
 # https://www.sudokuwiki.org/Getting_Started
 
@@ -33,11 +34,11 @@ import constants
 # Last Remaining Cell in a Row (or Column)
 
 
-def TestaPossibilidades (jogo, l, c, caixaMenardo):
+def TestaPossibilidades (jogo, l, c):
 
     possibilidade  = np.array([1,2,3,4,5,6,7,8,9]) 
     naoPossibilidade = [] 
-    caixa = RetornaCaixa(jogo,caixaMenardo)
+    caixa = RetornaCaixa(jogo, constants.modeloMenardoCaixas[l,c])
     
     # Method: Last Remaining Cell in a Row (or Column)
     naoPossibilidade = M_Last_Remaining_Cell_Row (jogo, l, c)
@@ -57,7 +58,7 @@ def M_Last_Remaining_Cell_Row (jogo, l, c):
         naoPossibilidade.append(jogo[x,c])
 
     #DEBUG
-    if constants.fl_debug: print (naoPossibilidade)
+    if settings.fl_debug: print (f"O método M_Last_Remaining_Cell_Row retornou {naoPossibilidade} para a posição {l}, {c}.")
         
     return naoPossibilidade
 
@@ -68,7 +69,7 @@ def M_Last_Remaining_Cell_Box (caixa):
             naoPossibilidade.append(caixa[l,c])
     
     #DEBUG
-    #print (naoPossibilidade)
+    if settings.fl_debug: print (naoPossibilidade)
             
     return naoPossibilidade
 
@@ -91,9 +92,8 @@ def M_Naked_Candidates (matrizSugestao):
                 mxB = matrizSugestao[:,:,b] 
 
                 # DEBUG
-                print (f"Naked Pair: ({a},{b})\n")
-                
-                print (f"Matriz Sugestão: \n mxA\n({mxA}\nmxB\n{mxB})\n")
+                if settings.fl_debug: print (f"Naked Pair: ({a},{b})\n")
+                if settings.fl_debug: print (f"Matriz Sugestão: \n mxA\n({mxA}\nmxB\n{mxB})\n")
 
                 for l in range (9):
                     for c in range (9):
