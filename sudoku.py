@@ -49,6 +49,7 @@ def TestaPossibilidades (jogo, l, c, modeloMenardoCaixas):
     return possibilidade
 
 
+
 def M_Last_Remaining_Cell_Row (jogo, l, c):
     naoPossibilidade = []
     for x in range (9):
@@ -83,8 +84,12 @@ def M_Naked_Candidates (matrizSugestao):
 
     for a in range (9):
         for b in range (9):
-            if a>=b: pass
+
+            if a>=b: 
+                pass
             else:
+                
+                nakedPairs = np.zeros(9, 9)
 
                 mxA = matrizSugestao[:,:,a]
                 mxB = matrizSugestao[:,:,b] 
@@ -95,9 +100,19 @@ def M_Naked_Candidates (matrizSugestao):
 
                 for l in range (9):
                     for c in range (9):
+                        
+                        if (matrizSugestao[l,c,:].sum(axis=0) == 2):
 
-                        if (mxA[l,c] == True and mxB[l,c] == True):
-                            print (f"Par {a}, {b} detectado no [{l}, {c}]")
+                            if (mxA[l,c] == mxB[l,c] == True):  
+                                print (f"Par {a}, {b} detectado no [{l}, {c}]")
+                                nakedPairs[l,c] = True
+                            #if pair
+                        #if sum
+                    #range c
+                #range l
+            #else 
+                                
+    
 
 
 
