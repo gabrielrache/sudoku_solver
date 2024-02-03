@@ -62,7 +62,7 @@ def M_Last_Remaining_Cell_Box (caixa):
 
 
 # Método Naked Candidates
-def M_Naked_Candidates (matrizSugestao):
+def M_Naked_Candidates (matrizSugestao, modeloSestiSudoku):
 
     ## Itera pares de sugestões
     for a in range (9):
@@ -90,7 +90,9 @@ def M_Naked_Candidates (matrizSugestao):
                             
                             ## Teste: sugestões exatamente a e b 
                             if (mxA[l,c] == mxB[l,c] == True):  
-                                print (f"Par ({a+1}, {b+1}) detectado no [{l}, {c}]")
+                                
+                                # DEBUG
+                                # print (f"Par ({a+1}, {b+1}) detectado no [{l}, {c}]")
                                 
                                 # Salva posição do par 
                                 nakedPair[l,c] = True
@@ -108,6 +110,7 @@ def M_Naked_Candidates (matrizSugestao):
             for x in range (9):
 
                 nakedPair_box = Get_Box(nakedPair,x)
+                modeloSestiSudoku_box = Get_Box(modeloSestiSudoku, x)
                 mxA_box = Get_Box(mxA,x)
                 mxB_box = Get_Box(mxB,x)
                 
@@ -118,22 +121,23 @@ def M_Naked_Candidates (matrizSugestao):
                             if nakedPair_box[l,c] == False:
                                     
                                 if mxA_box[l,c] ==True:
-                                        mxA_box[l,c] = False
+                                    mxA_box[l,c] = False
                                         
-                                        #VERBOSE
-                                        print (f"{a+1} eliminado da posição ({l}, {c}). Método: Naked Pairs - Box")
-                                    # fim elimina a
+                                    #VERBOSE
+                                    print (f"{a+1} eliminado da posição {modeloSestiSudoku_box[l,c]}. Método: Naked Pairs - Box")
+                                # fim elimina a
                                     
                                 if mxB_box[l,c] ==True:
                                     mxB_box[l,c] = False
                                     
                                     #VERBOSE
-                                    print (f"{b+1} eliminado da posição ({l}, {c}). Método: Naked Pairs - Box")
-                                
-                nakedPair = Set_Box(nakedPair, nakedPair_box, x)
-                mxA = Set_Box(mxA, mxA_box, x)
-                mxB = Set_Box(mxB, mxB_box, x)                
-                     
+                                    print (f"{b+1} eliminado da posição {modeloSestiSudoku_box[l,c]}. Método: Naked Pairs - Box")
+                                # fim elimina b
+                            # fim elimina par
+                        # fim range c
+                    #fim range l
+                # fim elimina caixa 
+                
                 ## Elimina candidatos na linha x
                 if nakedPair[x,:].sum(axis=0) > 1:
                     for y in range (9):
@@ -143,13 +147,13 @@ def M_Naked_Candidates (matrizSugestao):
                                 mxA[x,y] = False
                                 
                                 #VERBOSE
-                                print (f"{a+1} eliminado da posição ({x}, {y}). Método: Naked Pairs - Row")
+                                print (f"{a+1} eliminado da posição {modeloSestiSudoku[x,y]}. Método: Naked Pairs - Row")
                             # fim elimina a
                                 
                             if mxB[x,y] ==True:
                                 mxB[x,y] = False
                                 #VERBOSE
-                                print (f"{b+1} eliminado da posição ({x}, {y}). Método: Naked Pairs - Row")
+                                print (f"{b+1} eliminado da posição {modeloSestiSudoku[x,y]}. Método: Naked Pairs - Row")
                             # fim elimina b
                         # fim elimina par
                     # fim range y
@@ -165,20 +169,24 @@ def M_Naked_Candidates (matrizSugestao):
                                 mxA[y,x] = False
                                 
                                 #VERBOSE
-                                print (f"{a+1} eliminado da posição ({y}, {x}). Método: Naked Pairs - Column")
+                                print (f"{a+1} eliminado da posição {modeloSestiSudoku[x,y]}. Método: Naked Pairs - Column")
                             # fim elimina a
 
                             if mxB[y,x] ==True:
                                 mxB[y,x] = False
                                 
                                 #VERBOSE
-                                print (f"{b+1} eliminado da posição ({y}, {x}). Método: Naked Pairs - Column")
+                                print (f"{b+1} eliminado da posição {modeloSestiSudoku[x,y]}. Método: Naked Pairs - Column")
                             # fim elimina b
                         # fim elimina par
                     # fim range y
                 # fim elimina coluna
             # fim range elimina Naked pairs
             
+            ## Atualiza matrizes com as caixas atualizadas
+            nakedPair = Set_Box(nakedPair, nakedPair_box, x)
+            mxA = Set_Box(mxA, mxA_box, x)
+            mxB = Set_Box(mxB, mxB_box, x)  
                             
             # Retorna matriz de sugestões atualizada
             # para matrizSugestao
@@ -210,7 +218,6 @@ def Get_Box (matriz, caixaMenardo):
 
     return dict.get(caixaMenardo)
 
-
 def Set_Box (matriz, caixa, caixaMenardo):
     if caixaMenardo == 0: 
         matriz[:3 , :3] = np.copy(caixa)    
@@ -232,15 +239,16 @@ def Set_Box (matriz, caixa, caixaMenardo):
         matriz[6: , 6:] = np.copy(caixa)
     return (matriz)
 
-
-
-def AtualizaParcial (resolvidoParcial, matrizSugestao):
+def AtualizaParcial (resolvidoParcial, matrizSugestao, modeloSestiSudoku):
 
     for l in range (9):
         for c in range (9):
             if sum(matrizSugestao[:,l,c]) == 1: 
                 for x in range (9):
                     if matrizSugestao[x,l,c] == True:
-                        resolvidoParcial[l,c] = x+1 
+                        resolvidoParcial[l,c] = x+1
+                        
+                        # VERBOSE
+                        print (f"A posição {modeloSestiSudoku[l,c]} recebeu {x+1} agora!") 
                     
     return resolvidoParcial

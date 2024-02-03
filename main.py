@@ -132,7 +132,7 @@ def main ():
                 # Se encontrou uma célula vazia
                 if resolvidoParcial[l,c] == 0:
                     
-                    if fl_verbose: print(f"\nIteracao {modeloSestiSudoku[l,c]} ({l},{c}):")
+                    if fl_verbose: print(f"\nIteração {modeloSestiSudoku[l,c]} ({l},{c}):")
                     
                     # Retorna uma lista de sugestões baseado nas linhas, colunas e quadro
                     sugestao = sudoku.TestaPossibilidades (resolvidoParcial,l,c,modeloMenardoCaixas)  
@@ -155,9 +155,9 @@ def main ():
 
 
 
-        matrizSugestao = np.copy(sudoku.M_Naked_Candidates(matrizSugestao))
+        matrizSugestao = np.copy(sudoku.M_Naked_Candidates(matrizSugestao, modeloSestiSudoku))
         
-        resolvidoParcial = np.copy(sudoku.AtualizaParcial (resolvidoParcial, matrizSugestao))
+        resolvidoParcial = np.copy(sudoku.AtualizaParcial (resolvidoParcial, matrizSugestao, modeloSestiSudoku))
 
         resolvidoFinal = np.copy(resolvidoParcial)
 
