@@ -139,6 +139,7 @@ def M_Naked_Candidates (matrizSugestao):
                                 mxA[x,y] = False
                                 #DEBUG
                                 print (f"{a} eliminado da posição ({x}, {y})")
+                                
                             if mxB[x,y] ==True:
                                 mxB[x,y] = False
                                 #DEBUG
@@ -152,6 +153,7 @@ def M_Naked_Candidates (matrizSugestao):
                                 mxA[y,x] = False
                                 #DEBUG
                                 print (f"{a} eliminado da posição ({y}, {x})")
+
                             if mxB[y,x] ==True:
                                 mxB[y,x] = False
                                 #DEBUG
