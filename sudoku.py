@@ -20,16 +20,9 @@ import numpy as np
 # BUG - Bi-Value Universal Grave
 # Avoidable Rectangles
 
-
 ### Doing
-
 # Naked Pairs
 
-
-### Done!
-
-# Last Remaining Cell in a Box
-# Last Remaining Cell in a Row (or Column)
 
 
 def TestaPossibilidades (jogo, l, c, modeloMenardoCaixas):
@@ -49,29 +42,26 @@ def TestaPossibilidades (jogo, l, c, modeloMenardoCaixas):
     return possibilidade
 
 
-
+# Método Last Remaining Cell in a Row
 def M_Last_Remaining_Cell_Row (jogo, l, c):
     naoPossibilidade = []
     for x in range (9):
         naoPossibilidade.append(jogo[l,x])
         naoPossibilidade.append(jogo[x,c])
-
-    #DEBUG
-    #print (f"O método M_Last_Remaining_Cell_Row retornou {naoPossibilidade} para a posição {l}, {c}.")
-        
+           
     return naoPossibilidade
 
+# Método Last Remaining Cell in a Box
 def M_Last_Remaining_Cell_Box (caixa):
     naoPossibilidade = []
     for l in range (3):
         for c in range (3):
             naoPossibilidade.append(caixa[l,c])
-    
-    #DEBUG
-    #print (naoPossibilidade)
-            
+                        
     return naoPossibilidade
 
+
+# Método Naked Candidates
 def M_Naked_Candidates (matrizSugestao):
 
 # 1 - busca celulas com pares iguais
@@ -82,35 +72,33 @@ def M_Naked_Candidates (matrizSugestao):
 # 4a - isola pares iguais na caixa
 # 4b - limpa sugestões do par na caixa
 
-    ## Gera pares de sugestões. Ignora pares iguais com
-    ## posição permutada - ex.: (2,5) e (5,2)
+    ## Itera pares de sugestões
     for a in range (9):
         for b in range (9):
 
-            ## cria tabela de False para marcação dos pares
-            nakedPair = np.array(np.zeros(81), dtype=bool).reshape(9, 9)
+            ## cria tabela para marcação dos pares
+            nakedPair = np.zeros((9,9), dtype=bool)
 
+            ## Carrega matriz sugestão de cada número possível 
+            mxA = matrizSugestao[a,:,:]
+            mxB = matrizSugestao[b,:,:] 
+            
+            ## Ignora pares iguais onde a posição está 
+            ## apenas permutada - ex.: (2,5) e (5,2)
             if a < b: 
-                
-                ## Carrega matriz sugestão de cada número possível 
-                mxA = matrizSugestao[:,:,a]
-                mxB = matrizSugestao[:,:,b] 
-
-                # DEBUG
-                #print (f"Naked Pair: ({a},{b})\n")
-                #print (f"Matriz Sugestão: \n mxA\n({mxA}\nmxB\n{mxB})\n")
-
 
                 ## Varre linhas e colunas da matrizSugestao procurando 
-                ## células que contenham apenas duas sugestões, alimentando
-                ## a matriz nakedPair com a posição
+                ## células que contenham exatamente duas sugestões, alimentando
+                ## a matriz nakedPair com True na posição encontrada
                 for l in range (9):
                     for c in range (9):  
 
-                        # Teste: células com duas sugestões
-                        if (matrizSugestao[l,c,:].sum(axis=0) == 2):
+                        ## Teste: células com exatamente duas sugestões
+                        if (matrizSugestao[:,l,c].sum(axis=0) == 2):
+                            
+                            ## Teste: sugestões exatamente a e b 
                             if (mxA[l,c] == mxB[l,c] == True):  
-                                print (f"Par {a}, {b} detectado no [{l}, {c}]")
+                                print (f"Par ({a+1}, {b+1}) detectado no [{l}, {c}]")
                                 
                                 # Salva posição do par 
                                 nakedPair[l,c] = True
@@ -118,8 +106,10 @@ def M_Naked_Candidates (matrizSugestao):
                         # fim if é par
                     # fim range c
                 # fim range l
+            # fim a<b
+                
                                 
-            ## Localiza Naked Pairs em posições válidas
+            ## Localiza Naked Pairs e elimina candidatos
             for x in range (9):
 
                 caixa = RetornaCaixa(nakedPair,x)
@@ -135,38 +125,56 @@ def M_Naked_Candidates (matrizSugestao):
                 if nakedPair[x,:].sum(axis=0) > 1:
                     for y in range (9):
                         if nakedPair[x,y] == False:
+                            
                             if mxA[x,y] ==True:
                                 mxA[x,y] = False
-                                #DEBUG
-                                print (f"{a} eliminado da posição ({x}, {y})")
+                                
+                                #VERBOSE
+                                print (f"{a+1} eliminado da posição ({x}, {y})")
+                            # fim elimina a
                                 
                             if mxB[x,y] ==True:
                                 mxB[x,y] = False
-                                #DEBUG
-                                print (f"{b} eliminado da posição ({x}, {y})")   
+                                #VERBOSE
+                                print (f"{b+1} eliminado da posição ({x}, {y})")
+                            # fim elimina b
+                        # fim elimina par
+                    # fim range y
+                # fim elimina linha
+                
                 
                 ## Elimina candidatos na coluna
                 if nakedPair[:,x].sum(axis=0) > 1:
-                    for Y in range (9):
+                    for y in range (9):
                         if nakedPair[y,x] == False:
+                            
                             if mxA[y,x] ==True:
                                 mxA[y,x] = False
-                                #DEBUG
-                                print (f"{a} eliminado da posição ({y}, {x})")
+                                
+                                #VERBOSE
+                                print (f"{a+1} eliminado da posição ({y}, {x})")
+                            # fim elimina a
 
                             if mxB[y,x] ==True:
                                 mxB[y,x] = False
-                                #DEBUG
-                                print (f"{b} eliminado da posição ({y}, {x})")
-            # fim a<b
+                                
+                                #VERBOSE
+                                print (f"{b+1} eliminado da posição ({y}, {x})")
+                            # fim elimina b
+                        # fim elimina par
+                    # fim range y
+                # fim elimina coluna
+            # fim range elimina Naked pairs
+            
+                            
+            # Retorna matriz de sugestões atualizada
+            # para matrizSugestao
+            matrizSugestao[a,:,:] = mxA
+            matrizSugestao[b,:,:] = mxB
         # fim range b
     # fim range a
                                 
-    # DEBUG
-    #print(f"fim da execução do naked candidates. nakedPair: \n {nakedPair}")
-
-
-        #return matrizSugestao
+    return matrizSugestao
 
 
 def RetornaCaixa (jogo, caixaMenardo):

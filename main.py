@@ -129,10 +129,10 @@ def main ():
         for l in range (9):
             for c in range (9):        
 
-                # Se encontrou um quadrado vazio
+                # Se encontrou uma célula vazia
                 if resolvidoParcial[l,c] == 0:
                     
-                    if fl_verbose: print(f"\nIteracao {modeloSestiSudoku[l,c]}:")
+                    if fl_verbose: print(f"\nIteracao {modeloSestiSudoku[l,c]} ({l},{c}):")
                     
                     # Retorna uma lista de sugestões baseado nas linhas, colunas e quadro
                     sugestao = sudoku.TestaPossibilidades (resolvidoParcial,l,c,modeloMenardoCaixas)  
@@ -148,12 +148,10 @@ def main ():
                         if fl_verbose: print (f"A posição {modeloSestiSudoku[l,c]} recebeu {sugestao[0]} agora!")    
                     else:
                         for x in sugestao:
-                            matrizSugestao[l,c,x-1] = True
+                            matrizSugestao[x-1,l,c] = True
 
                             if fl_verbose: print(f"A posição {modeloSestiSudoku[l,c]} pode ser {x}")
-
-                    if fl_debug: print(matrizSugestao[0,:,:])
-
+                            
 
         #matrizSugestao = sudoku.M_Naked_Candidates(matrizSugestao)
 
@@ -182,7 +180,9 @@ def main ():
         
     print(f"Progresso final do Quebra-cabeça:\n\n{resolvidoFinal}")
 
-    sudoku.M_Naked_Candidates(matrizSugestao)
-
+    print (matrizSugestao)
+    matrizSugestao = sudoku.M_Naked_Candidates(matrizSugestao)
+    print (matrizSugestao)
+    
 if __name__ == "__main__":
     main()
