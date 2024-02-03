@@ -29,7 +29,7 @@ def TestaPossibilidades (jogo, l, c, modeloMenardoCaixas):
 
     possibilidade  = np.array([1,2,3,4,5,6,7,8,9]) 
     naoPossibilidade = [] 
-    caixa = RetornaCaixa(jogo, modeloMenardoCaixas[l,c])
+    caixa = Get_Box(jogo, modeloMenardoCaixas[l,c])
     
     # Method: Last Remaining Cell in a Row (or Column)
     naoPossibilidade = M_Last_Remaining_Cell_Row (jogo, l, c)
@@ -63,14 +63,6 @@ def M_Last_Remaining_Cell_Box (caixa):
 
 # Método Naked Candidates
 def M_Naked_Candidates (matrizSugestao):
-
-# 1 - busca celulas com pares iguais
-# 2a - isola pares iguais na linha
-# 2b - limpa sugestões do par na linha
-# 3a - isola pares iguais na coluna
-# 3b - limpa sugestões do par na coluna
-# 4a - isola pares iguais na caixa
-# 4b - limpa sugestões do par na caixa
 
     ## Itera pares de sugestões
     for a in range (9):
@@ -109,19 +101,40 @@ def M_Naked_Candidates (matrizSugestao):
             # fim a<b
                 
                                 
-            ## Localiza Naked Pairs e elimina candidatos
+            ## Localiza Naked Pairs e elimina os candidatos
+            ## nas caixas, linhas e colunas 
+            
+            
             for x in range (9):
 
-                caixa = RetornaCaixa(nakedPair,x)
+                nakedPair_box = Get_Box(nakedPair,x)
+                mxA_box = Get_Box(mxA,x)
+                mxB_box = Get_Box(mxB,x)
                 
-                ## Elimina candidatos na caixa
-                if caixa.sum() > 1:
+                ## Elimina candidatos na caixa x
+                if nakedPair_box.sum() > 1:
                     for l in range (3):
                         for c in range (3):
-                            pass
-                        
-
-                ## Elimina candidatos na linha
+                            if nakedPair_box[l,c] == False:
+                                    
+                                if mxA_box[l,c] ==True:
+                                        mxA_box[l,c] = False
+                                        
+                                        #VERBOSE
+                                        print (f"{a+1} eliminado da posição ({l}, {c}). Método: Naked Pairs - Box")
+                                    # fim elimina a
+                                    
+                                if mxB_box[l,c] ==True:
+                                    mxB_box[l,c] = False
+                                    
+                                    #VERBOSE
+                                    print (f"{b+1} eliminado da posição ({l}, {c}). Método: Naked Pairs - Box")
+                                
+                nakedPair = Set_Box(nakedPair, nakedPair_box, x)
+                mxA = Set_Box(mxA, mxA_box, x)
+                mxB = Set_Box(mxB, mxB_box, x)                
+                     
+                ## Elimina candidatos na linha x
                 if nakedPair[x,:].sum(axis=0) > 1:
                     for y in range (9):
                         if nakedPair[x,y] == False:
@@ -130,20 +143,20 @@ def M_Naked_Candidates (matrizSugestao):
                                 mxA[x,y] = False
                                 
                                 #VERBOSE
-                                print (f"{a+1} eliminado da posição ({x}, {y})")
+                                print (f"{a+1} eliminado da posição ({x}, {y}). Método: Naked Pairs - Row")
                             # fim elimina a
                                 
                             if mxB[x,y] ==True:
                                 mxB[x,y] = False
                                 #VERBOSE
-                                print (f"{b+1} eliminado da posição ({x}, {y})")
+                                print (f"{b+1} eliminado da posição ({x}, {y}). Método: Naked Pairs - Row")
                             # fim elimina b
                         # fim elimina par
                     # fim range y
                 # fim elimina linha
                 
                 
-                ## Elimina candidatos na coluna
+                ## Elimina candidatos na coluna x
                 if nakedPair[:,x].sum(axis=0) > 1:
                     for y in range (9):
                         if nakedPair[y,x] == False:
@@ -152,14 +165,14 @@ def M_Naked_Candidates (matrizSugestao):
                                 mxA[y,x] = False
                                 
                                 #VERBOSE
-                                print (f"{a+1} eliminado da posição ({y}, {x})")
+                                print (f"{a+1} eliminado da posição ({y}, {x}). Método: Naked Pairs - Column")
                             # fim elimina a
 
                             if mxB[y,x] ==True:
                                 mxB[y,x] = False
                                 
                                 #VERBOSE
-                                print (f"{b+1} eliminado da posição ({y}, {x})")
+                                print (f"{b+1} eliminado da posição ({y}, {x}). Método: Naked Pairs - Column")
                             # fim elimina b
                         # fim elimina par
                     # fim range y
@@ -177,22 +190,57 @@ def M_Naked_Candidates (matrizSugestao):
     return matrizSugestao
 
 
-def RetornaCaixa (jogo, caixaMenardo):
+def Get_Box (matriz, caixaMenardo):
     dict = {
-        0 : jogo[:3 , :3],
-        1 : jogo[:3 ,3:6],
-        2 : jogo[:3 , 6:],
-        3 : jogo[3:6, :3],
-        4 : jogo[3:6,3:6],
-        5 : jogo[3:6, 6:],
-        6 : jogo[6: , :3],
-        7 : jogo[6: ,3:6], 
-        8 : jogo[6: , 6:],
-        10 : jogo[3:6, :3],
-        11 : jogo[3:6,3:6],
-        12 : jogo[3:6, 6:],
-        20 : jogo[6: , :3],
-        21 : jogo[6: ,3:6], 
-        22 : jogo[6: , 6:]}
+        0 : matriz[:3 , :3],
+        1 : matriz[:3 ,3:6],
+        2 : matriz[:3 , 6:],
+        3 : matriz[3:6, :3],
+        4 : matriz[3:6,3:6],
+        5 : matriz[3:6, 6:],
+        6 : matriz[6: , :3],
+        7 : matriz[6: ,3:6], 
+        8 : matriz[6: , 6:],
+        10 : matriz[3:6, :3],
+        11 : matriz[3:6,3:6],
+        12 : matriz[3:6, 6:],
+        20 : matriz[6: , :3],
+        21 : matriz[6: ,3:6], 
+        22 : matriz[6: , 6:]}
 
     return dict.get(caixaMenardo)
+
+
+def Set_Box (matriz, caixa, caixaMenardo):
+    if caixaMenardo == 0: 
+        matriz[:3 , :3] = np.copy(caixa)    
+    if caixaMenardo == 1: 
+        matriz[:3 ,3:6] = np.copy(caixa)
+    if caixaMenardo == 2: 
+        matriz[:3 , 6:] = np.copy(caixa)
+    if caixaMenardo == 3: 
+        matriz[3:6, :3] = np.copy(caixa)
+    if caixaMenardo == 4: 
+        matriz[3:6,3:6] = np.copy(caixa)
+    if caixaMenardo == 5: 
+        matriz[3:6, 6:] = np.copy(caixa)
+    if caixaMenardo == 6: 
+        matriz[6: , :3] = np.copy(caixa)
+    if caixaMenardo == 7: 
+        matriz[6: ,3:6] = np.copy(caixa)
+    if caixaMenardo == 8:         
+        matriz[6: , 6:] = np.copy(caixa)
+    return (matriz)
+
+
+
+def AtualizaParcial (resolvidoParcial, matrizSugestao):
+
+    for l in range (9):
+        for c in range (9):
+            if sum(matrizSugestao[:,l,c]) == 1: 
+                for x in range (9):
+                    if matrizSugestao[x,l,c] == True:
+                        resolvidoParcial[l,c] = x+1 
+                    
+    return resolvidoParcial

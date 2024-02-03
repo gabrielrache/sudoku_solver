@@ -153,8 +153,11 @@ def main ():
                             if fl_verbose: print(f"A posição {modeloSestiSudoku[l,c]} pode ser {x}")
                             
 
-        #matrizSugestao = sudoku.M_Naked_Candidates(matrizSugestao)
 
+
+        matrizSugestao = np.copy(sudoku.M_Naked_Candidates(matrizSugestao))
+        
+        resolvidoParcial = np.copy(sudoku.AtualizaParcial (resolvidoParcial, matrizSugestao))
 
         resolvidoFinal = np.copy(resolvidoParcial)
 
@@ -180,9 +183,7 @@ def main ():
         
     print(f"Progresso final do Quebra-cabeça:\n\n{resolvidoFinal}")
 
-    print (matrizSugestao)
-    matrizSugestao = sudoku.M_Naked_Candidates(matrizSugestao)
-    print (matrizSugestao)
+    #matrizSugestao = sudoku.M_Naked_Candidates(matrizSugestao)
     
 if __name__ == "__main__":
     main()
