@@ -40,14 +40,14 @@ def main ():
     #                                  [80,81,82,83,84,85,86,87,88]])
 
     modelo_menardo_caixas = np.array ([[ 0, 0, 0, 1, 1, 1, 2, 2, 2],
-                                     [ 0, 0, 0, 1, 1, 1, 2, 2, 2],
-                                     [ 0, 0, 0, 1, 1, 1, 2, 2, 2],
-                                     [10,10,10,11,11,11,12,12,12],
-                                     [10,10,10,11,11,11,12,12,12],
-                                     [10,10,10,11,11,11,12,12,12],
-                                     [20,20,20,21,21,21,22,22,22],
-                                     [20,20,20,21,21,21,22,22,22],
-                                     [20,20,20,21,21,21,22,22,22]])
+                                       [ 0, 0, 0, 1, 1, 1, 2, 2, 2],
+                                       [ 0, 0, 0, 1, 1, 1, 2, 2, 2],
+                                       [ 3, 3, 3, 4, 4, 4, 5, 5, 5],
+                                       [ 3, 3, 3, 4, 4, 4, 5, 5, 5],
+                                       [ 3, 3, 3, 4, 4, 4, 5, 5, 5],
+                                       [ 6, 6, 6, 7, 7, 7, 8, 8, 8],
+                                       [ 6, 6, 6, 7, 7, 7, 8, 8, 8],
+                                       [ 6, 6, 6, 7, 7, 7, 8, 8, 8]])
 
     #exemplo - Sudoku completo
 
@@ -159,8 +159,10 @@ def main ():
         resolvido_parcial = np.copy(sudoku.atualiza_parcial (resolvido_parcial, matriz_sugestao, modelo_sesti_sudoku))
 
         resolvido_final = np.copy(resolvido_parcial)
-
-        faltantes = (len(np.transpose(np.nonzero( np.select ( [resolvido_final==0], [resolvido_final+1],  0)))))
+        
+        # Pega quantidade de espaços faltantes
+        faltantes = len(np.nonzero( np.select ( [resolvido_final==0], [resolvido_final+1],  0))[0])
+        
 
         # Se jogo estar completo, parar o loop
         if  faltantes == 0:
@@ -184,8 +186,6 @@ def main ():
         faltantes_ant = faltantes
         
     print(f"Progresso final do Quebra-cabeça:\n\n{resolvido_final}")
-
-    #matriz_sugestao = sudoku.m_naked_candidates(matrizSugestao)
     
 if __name__ == "__main__":
     main()

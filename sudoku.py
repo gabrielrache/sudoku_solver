@@ -29,23 +29,16 @@ import numpy as np
 def testa_possibilidades(jogo, l, c, modelo_menardo_caixas):
 
     possibilidade  = np.array([1,2,3,4,5,6,7,8,9]) 
-    #sugestao = []
     nao_possibilidade = [] 
     caixa = get_box(jogo, modelo_menardo_caixas[l,c])
     
     # Method: Last Remaining Cell in a Row (or Column)
     nao_possibilidade = m_last_remaining_cell_row (jogo, l, c)
     possibilidade = (list(set(possibilidade).difference(nao_possibilidade)))
-    #for element in possibilidade:
-    #    if element not in nao_possibilidade:
-    #        sugestao.append(element)
 
     # Method: Last Remaining Cell in a Box
     nao_possibilidade = m_last_remaining_cell_box (caixa)
     possibilidade = (list(set(possibilidade).difference(nao_possibilidade)))
-    #for element in possibilidade:
-    #    if element not in nao_possibilidade:
-    #        sugestao.append(element)
 
     return possibilidade
 
@@ -189,7 +182,6 @@ def m_naked_candidates (matriz_sugestao, modelo_sesti_sudoku):
             # fim range elimina Naked pairs
             
             ## Atualiza matrizes com as caixas atualizadas
-            #naked_pair = set_box(naked_pair, naked_pair_box, x)
             mxa = set_box(mxa, mxa_box, x)
             mxb = set_box(mxb, mxb_box, x)  
                             
@@ -203,45 +195,39 @@ def m_naked_candidates (matriz_sugestao, modelo_sesti_sudoku):
     return matriz_sugestao
 
 
-def get_box (matriz, caixa_menardo): # apagar 10 adiante no futuro. Cuidar para ver o que quebra
+def get_box (matriz, caixa_menardo):
     dicionario = {
-        0 : matriz[:3 , :3],
-        1 : matriz[:3 ,3:6],
-        2 : matriz[:3 , 6:],
-        3 : matriz[3:6, :3],
-        4 : matriz[3:6,3:6],
-        5 : matriz[3:6, 6:],
-        6 : matriz[6: , :3],
-        7 : matriz[6: ,3:6], 
-        8 : matriz[6: , 6:],
-        10 : matriz[3:6, :3],
-        11 : matriz[3:6,3:6],
-        12 : matriz[3:6, 6:],
-        20 : matriz[6: , :3],
-        21 : matriz[6: ,3:6], 
-        22 : matriz[6: , 6:]}
+        0 :  matriz[0:3 , 0:3],
+        1 :  matriz[0:3 , 3:6],
+        2 :  matriz[0:3 , 6:9],
+        3 :  matriz[3:6 , 0:3],
+        4 :  matriz[3:6 , 3:6],
+        5 :  matriz[3:6 , 6:9],
+        6 :  matriz[6:9 , 0:3],
+        7 :  matriz[6:9 , 3:6], 
+        8 :  matriz[6:9 , 6:9]}
 
-    return dicionario.get(caixa_menardo)
+    return dicionario[caixa_menardo]
 
 def set_box (matriz, caixa, caixa_menardo):
     if caixa_menardo == 0: 
-        matriz[:3 , :3] = np.copy(caixa)
+        matriz[0:3 , 0:3] = np.copy(caixa)
     if caixa_menardo == 1: 
-        matriz[:3 ,3:6] = np.copy(caixa)
+        matriz[0:3 , 3:6] = np.copy(caixa)
     if caixa_menardo == 2: 
-        matriz[:3 , 6:] = np.copy(caixa)
+        matriz[0:3 , 6:9] = np.copy(caixa)
     if caixa_menardo == 3: 
-        matriz[3:6, :3] = np.copy(caixa)
+        matriz[3:6 , 0:3] = np.copy(caixa)
     if caixa_menardo == 4: 
-        matriz[3:6,3:6] = np.copy(caixa)
+        matriz[3:6 , 3:6] = np.copy(caixa)
     if caixa_menardo == 5: 
-        matriz[3:6, 6:] = np.copy(caixa)
+        matriz[3:6 , 6:9] = np.copy(caixa)
     if caixa_menardo == 6: 
-        matriz[6: , :3] = np.copy(caixa)
+        matriz[6:9 , 0:3] = np.copy(caixa)
     if caixa_menardo == 7: 
-        matriz[6: ,3:6] = np.copy(caixa)
+        matriz[6:9 , 3:6] = np.copy(caixa)
     if caixa_menardo == 8:         
-        matriz[6: , 6:] = np.copy(caixa)
+        matriz[6:9 , 6:9] = np.copy(caixa)
     return matriz
 
 def atualiza_parcial (resolvido_parcial, matriz_sugestao, modelo_sesti_sudoku):
