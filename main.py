@@ -1,12 +1,12 @@
+# pylint: disable=C0114,C0116,C0303,C0301,C0121
 import numpy as np
 import sudoku
-
 
 def main ():
 
     # Nomenclatura Sesti (TM) 
 
-    modeloSestiSudoku = np.array ([['A1','A2','A3','A4','A5','A6','A7','A8','A9'],
+    modelo_sesti_sudoku = np.array ([['A1','A2','A3','A4','A5','A6','A7','A8','A9'],
                                    ['B1','B2','B3','B4','B5','B6','B7','B8','B9'],
                                    ['C1','C2','C3','C4','C5','C6','C7','C8','C9'],
                                    ['D1','D2','D3','D4','D5','D6','D7','D8','D9'],
@@ -16,30 +16,30 @@ def main ():
                                    ['H1','H2','H3','H4','H5','H6','H7','H8','H9'],
                                    ['I1','I2','I3','I4','I5','I6','I7','I8','I9']])
 
-    modeloSestiCaixas = np.array ([[1,1,1,2,2,2,3,3,3],
-                                   [1,1,1,2,2,2,3,3,3],
-                                   [1,1,1,2,2,2,3,3,3],
-                                   [4,4,4,5,5,5,6,6,6],
-                                   [4,4,4,5,5,5,6,6,6],
-                                   [4,4,4,5,5,5,6,6,6],
-                                   [7,7,7,8,8,8,9,9,9],
-                                   [7,7,7,8,8,8,9,9,9],
-                                   [7,7,7,8,8,8,9,9,9]])
+    # modelo_sesti_caixas = np.array ([[1,1,1,2,2,2,3,3,3],
+    #                                [1,1,1,2,2,2,3,3,3],
+    #                                [1,1,1,2,2,2,3,3,3],
+    #                                [4,4,4,5,5,5,6,6,6],
+    #                                [4,4,4,5,5,5,6,6,6],
+    #                                [4,4,4,5,5,5,6,6,6],
+    #                                [7,7,7,8,8,8,9,9,9],
+    #                                [7,7,7,8,8,8,9,9,9],
+    #                                [7,7,7,8,8,8,9,9,9]])
 
 
     # Nomenclatura Menardo - open source
 
-    modeloMenardoSudoku = np.array ([[ 0, 1, 2, 3, 4, 5, 6, 7, 8],
-                                     [10,11,12,13,14,15,16,17,18],
-                                     [20,21,22,23,24,25,26,27,28],
-                                     [30,31,32,33,34,35,36,37,38],
-                                     [40,41,42,43,44,45,46,47,48],
-                                     [50,51,52,53,54,55,56,57,58],
-                                     [60,61,62,63,64,65,66,67,68],
-                                     [70,71,72,73,74,75,76,77,78],
-                                     [80,81,82,83,84,85,86,87,88]])
+    # modelo_menardo_sudoku = np.array ([[ 0, 1, 2, 3, 4, 5, 6, 7, 8],
+    #                                  [10,11,12,13,14,15,16,17,18],
+    #                                  [20,21,22,23,24,25,26,27,28],
+    #                                  [30,31,32,33,34,35,36,37,38],
+    #                                  [40,41,42,43,44,45,46,47,48],
+    #                                  [50,51,52,53,54,55,56,57,58],
+    #                                  [60,61,62,63,64,65,66,67,68],
+    #                                  [70,71,72,73,74,75,76,77,78],
+    #                                  [80,81,82,83,84,85,86,87,88]])
 
-    modeloMenardoCaixas = np.array ([[ 0, 0, 0, 1, 1, 1, 2, 2, 2],
+    modelo_menardo_caixas = np.array ([[ 0, 0, 0, 1, 1, 1, 2, 2, 2],
                                      [ 0, 0, 0, 1, 1, 1, 2, 2, 2],
                                      [ 0, 0, 0, 1, 1, 1, 2, 2, 2],
                                      [10,10,10,11,11,11,12,12,12],
@@ -51,17 +51,15 @@ def main ():
 
     #exemplo - Sudoku completo
 
-    sudoku_base = np.array( [[1,2,3, 4,5,6, 7,8,9],
-                            [4,5,6, 7,8,9, 1,2,3],
-                            [7,8,9, 1,2,3, 4,5,6],
-            
-                            [2,3,4, 5,6,7, 8,9,1],
-                            [5,6,7, 8,9,1, 2,3,4],
-                            [8,9,1, 2,3,4, 5,6,7],
-            
-                            [3,4,5, 6,7,8, 9,1,2],
-                            [6,7,8, 9,1,2, 3,4,5],
-                            [9,1,2, 3,4,5, 6,7,8]])
+    # sudoku_base = np.array( [[1,2,3, 4,5,6, 7,8,9],
+    #                         [4,5,6, 7,8,9, 1,2,3],
+    #                         [7,8,9, 1,2,3, 4,5,6], 
+    #                         [2,3,4, 5,6,7, 8,9,1],
+    #                         [5,6,7, 8,9,1, 2,3,4],
+    #                         [8,9,1, 2,3,4, 5,6,7],
+    #                         [3,4,5, 6,7,8, 9,1,2],
+    #                         [6,7,8, 9,1,2, 3,4,5],
+    #                         [9,1,2, 3,4,5, 6,7,8]])
 
 
     ### SUDOKU - EASY
@@ -83,11 +81,9 @@ def main ():
     # jogo = np.array([[0,0,0, 0,0,0, 0,0,0],
     #                  [4,0,6, 7,8,9, 1,2,3],
     #                  [7,8,9, 1,2,3, 4,5,6],
-
     #                  [2,3,4, 5,6,7, 8,9,1],
     #                  [5,6,7, 8,9,1, 2,3,4],
     #                  [8,9,1, 2,3,4, 5,6,7],
-    
     #                  [3,4,5, 6,7,8, 9,1,2],
     #                  [6,7,8, 9,1,2, 3,4,5],
     #                  [9,1,2, 3,4,5, 6,7,8]])
@@ -105,85 +101,91 @@ def main ():
     #                  [0,0,0, 0,0,0, 0,0,0],
     #                  [0,0,0, 0,0,0, 0,0,0]])
 
-        
-    
     fl_debug = False
     fl_verbose = True
-
     fl_continuar = True
+  
+    qt_turnos = 1
+    faltantes_ant = 0 
 
-    
-    qtTurnos = 1
-    faltantesAnt = 0 
-
-    resolvidoParcial = np.copy(jogo)
+    resolvido_parcial = np.copy(jogo)
 
     while fl_continuar:
 
-        if fl_verbose: print (f"\nTurno {qtTurnos}")
+        if fl_verbose: 
+            print (f"\nTurno {qt_turnos}")
 
         # Reseta matriz de sugestões
-        matrizSugestao = np.zeros((9,9,9), dtype=bool)
+        matriz_sugestao = np.zeros((9,9,9), dtype=bool)
 
         # Teste por linha e coluna
         for l in range (9):
             for c in range (9):        
 
                 # Se encontrou uma célula vazia
-                if resolvidoParcial[l,c] == 0:
+                if resolvido_parcial[l,c] == 0:
                     
-                    if fl_verbose: print(f"\nIteração {modeloSestiSudoku[l,c]} ({l},{c}):")
+                    if fl_verbose: 
+                        print(f"\nIteração {modelo_sesti_sudoku[l,c]} ({l},{c}):")
                     
                     # Retorna uma lista de sugestões baseado nas linhas, colunas e quadro
-                    sugestao = sudoku.TestaPossibilidades (resolvidoParcial,l,c,modeloMenardoCaixas)  
+                    sugestao = sudoku.testa_possibilidades(resolvido_parcial,l,c,modelo_menardo_caixas)  
 
-                    if fl_verbose: print (f"Lista sugestão: {sugestao}")
+                    if fl_verbose: 
+                        print (f"Lista sugestão: {sugestao}")
         
                     ##DEBUG
-                    if fl_debug: print(f"matrizSugestao = {matrizSugestao}")
+                    if fl_debug: 
+                        print(f"matriz_sugestao = {matriz_sugestao}")
 
-                    # Lógica passa para o jogo se for única sugestão disponível
+                    # Se for única sugestão disponível preenche com aquele valor
                     if len(sugestao) == 1: 
-                        resolvidoParcial[l,c] = (sugestao[0])   
-                        if fl_verbose: print (f"A posição {modeloSestiSudoku[l,c]} recebeu {sugestao[0]} agora!")    
+                        resolvido_parcial[l,c] = sugestao[0] 
+                        if fl_verbose: 
+                            print (f"A posição {modelo_sesti_sudoku[l,c]} recebeu {sugestao[0]} agora!")   
+                    # Senão cria matriz de sugestões para aquele espaço 
                     else:
                         for x in sugestao:
-                            matrizSugestao[x-1,l,c] = True
+                            matriz_sugestao[x-1,l,c] = True
 
-                            if fl_verbose: print(f"A posição {modeloSestiSudoku[l,c]} pode ser {x}")
+                            if fl_verbose: 
+                                print(f"A posição {modelo_sesti_sudoku[l,c]} pode ser {x}")
                             
 
 
 
-        matrizSugestao = np.copy(sudoku.M_Naked_Candidates(matrizSugestao, modeloSestiSudoku))
+        matriz_sugestao = np.copy(sudoku.m_naked_candidates(matriz_sugestao, modelo_sesti_sudoku))
         
-        resolvidoParcial = np.copy(sudoku.AtualizaParcial (resolvidoParcial, matrizSugestao, modeloSestiSudoku))
+        resolvido_parcial = np.copy(sudoku.atualiza_parcial (resolvido_parcial, matriz_sugestao, modelo_sesti_sudoku))
 
-        resolvidoFinal = np.copy(resolvidoParcial)
+        resolvido_final = np.copy(resolvido_parcial)
 
-        faltantes = (len(np.transpose(np.nonzero( np.select ( [resolvidoFinal==0], [resolvidoFinal+1],  0)))))
+        faltantes = (len(np.transpose(np.nonzero( np.select ( [resolvido_final==0], [resolvido_final+1],  0)))))
 
         # Se jogo estar completo, parar o loop
         if  faltantes == 0:
-            print(f"Não falta nenhum número! :D")
+            print("Não falta nenhum número! :D")
             break
 
         # Se o jogo estiver travado, parar o loop
-        if faltantesAnt >= faltantes:   
+        if faltantes_ant >= faltantes:   
             print(f"\nAinda faltam {faltantes} números para serem encontrados, mas não foi possível avançar\n")
             break
 
-        if (fl_verbose and faltantes == 1): print(f"\nAinda falta 1 número para encontrar\n")
-        elif fl_verbose: print(f"\nAinda faltam {faltantes} números para serem encontrados!\n")
+        if (fl_verbose and faltantes == 1): 
+            print("\nAinda falta 1 número para encontrar\n")
+        elif fl_verbose: 
+            print(f"\nAinda faltam {faltantes} números para serem encontrados!\n")
 
-        if fl_verbose: print(f"Progresso atual do Quebra-cabeça:\n\n{resolvidoFinal}")
+        if fl_verbose: 
+            print(f"Progresso atual do Quebra-cabeça:\n\n{resolvido_final}")
 
-        qtTurnos += 1
-        faltantesAnt = faltantes
+        qt_turnos += 1
+        faltantes_ant = faltantes
         
-    print(f"Progresso final do Quebra-cabeça:\n\n{resolvidoFinal}")
+    print(f"Progresso final do Quebra-cabeça:\n\n{resolvido_final}")
 
-    #matrizSugestao = sudoku.M_Naked_Candidates(matrizSugestao)
+    #matriz_sugestao = sudoku.m_naked_candidates(matrizSugestao)
     
 if __name__ == "__main__":
     main()
